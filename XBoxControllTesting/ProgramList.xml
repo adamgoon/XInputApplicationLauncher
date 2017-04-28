@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Programs>
+  <Program>
+    <Name>Steam</Name>
+    <Path><![CDATA[C:\Program Files (x86)\Steam\Steam.exe]]></Path>
+    <Argument><![CDATA[steam://open/bigpicture]]></Argument>
+  </Program>
+  <Program>
+    <Name>Elder Scrolls Online</Name>
+    <Path><![CDATA[E:\Games\Zenimax Online\Launcher\Bethesda.net_Launcher.exe]]></Path>
+  </Program>
+  <Program>
+    <Name>Elite Dangerous</Name>
+    <Path><![CDATA[E:\Games\Steam Games\SteamApps\common\Elite Dangerous\EDLaunch.exe]]></Path>
+  </Program>
+  <Program>
+    <Name>Battle.net Launcher</Name>
+    <Path><![CDATA[C:\Program Files (x86)\Battle.net\Battle.net.8058\Battle.net.exe]]></Path>
+  </Program>
+  <Program>
+    <Name>uPlay</Name>
+    <Path><![CDATA[C:\Program Files (x86)\Ubisoft\Ubisoft Game Launcher\Uplay.exe]]></Path>
+  </Program>
+</Programs>
