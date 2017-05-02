@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
+using System.IO;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Utils;
 
@@ -16,13 +19,21 @@ namespace XBoxControlTesting
 
                 var gameList = configFile.Descendants("Programs");
 
-                var data = from game in gameList.Descendants("Program")
-                           select new ListBoxStuff
-                           {
-                               Name = game.Element("Name").Value,
-                               Path = game.Element("Path").Value,
-                               Arguments = game.Element("Argument")?.Value
-                           };
+                List<ListBoxStuff> data = new List<ListBoxStuff>();
+
+                foreach (var game in gameList.Descendants("Program"))
+                {
+                    if (File.Exists(game.Element("Path").Value))
+                    {
+                        data.Add(new ListBoxStuff
+                        {
+                            Name = game.Element("Name").Value,
+                            Path = game.Element("Path").Value,
+                            Arguments = game.Element("Argument")?.Value,
+                            Icon = IconToImage(Icon.ExtractAssociatedIcon(game.Element("Path").Value))
+                        });
+                    }
+                }
 
                 return data;
             }
@@ -33,5 +44,14 @@ namespace XBoxControlTesting
                 return null;
             }
         }
+
+        private static ImageSource IconToImage(Icon icon)
+        {
+            Bitmap bmp = icon.ToBitmap();
+            var stream = new MemoryStream();
+            bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            return BitmapFrame.Create(stream);
+        }
     }
+
 }

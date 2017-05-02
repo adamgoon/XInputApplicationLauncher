@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XBoxControlTesting"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Style="{StaticResource CustomWindow}" >
+        Title="MainWindow" Height="350" Width="525" Style="{StaticResource CustomWindow}" Background="Black" >
     <Grid>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="515" ItemsSource="{Binding Games}" Background="White" FontSize="22" >
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="525" ItemsSource="{Binding Games}" Background="#FF122121" Foreground="White" BorderThickness="1" BorderBrush="#FF323232" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="3" Grid.Column="0" MouseDown="TextBlock_MouseDown"/>
+                    <StackPanel Orientation="Horizontal" MouseDown="TextBlock_MouseDown">
+                        <Image Source="{Binding Path=Icon, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                        <TextBlock Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="3" FontFamily="Segoe UI Light" FontSize="20"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

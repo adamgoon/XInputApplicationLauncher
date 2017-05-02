@@ -32,7 +32,7 @@ namespace XBoxController
         public Select SelectEvents{ get; set; }
     }
 
-    static public class Events
+    public static class Events
     {
         public static event EventHandler<ScrollEventArgs> ScrollEventTriggered;
         public static event EventHandler<SelectEventArgs> SelectEventTriggered;

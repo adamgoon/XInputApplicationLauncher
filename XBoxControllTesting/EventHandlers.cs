@@ -28,7 +28,7 @@ namespace XBoxControlTesting
             switch (e.SelectEvents)
             {
                 case Select.A:
-                    DispatchAction((() =>
+                    DispatchAction(() =>
                     {
                         if (_window.listBox.SelectedIndex > -1)
                         {
@@ -38,10 +38,10 @@ namespace XBoxControlTesting
                             Debugging.TraceInformation(string.Format("Attempting to launch '{0} {1}'", path, args));
                             var process = Process.Start(path, args);
                         }
-                    }));
+                    });
                     break;
                 case Select.Y:
-                    DispatchAction((() =>
+                    DispatchAction(() =>
                     {
                         if (_window.listBox.SelectedIndex > -1)
                         {
@@ -62,10 +62,16 @@ namespace XBoxControlTesting
                                 }
                             }
                         }
-                    }));
+                    });
 
                     break;
                 case Select.B:
+                    DispatchAction(() =>
+                    {
+                        Debugging.TraceInformation(string.Format("Attempting to hide window"));
+                         _window.Hide();
+                    });
+                    break;
                 case Select.X:
                 default:
                     /* Do Something */
@@ -78,42 +84,41 @@ namespace XBoxControlTesting
             switch (e.ScrollEvent)
             {
                 case ScrollDirection.Down:
-                    DispatchAction((() =>
+                    DispatchAction(() =>
                     {
                         if (_window.listBox.SelectedIndex < _window.listBox.Items.Count)
                         {
                             _window.listBox.SelectedIndex += 1;
                         }
-                    }));
+                    });
                     break;
                 case ScrollDirection.Up:
-                    DispatchAction((() =>
+                    DispatchAction(() =>
                     {
                         if (_window.listBox.SelectedIndex > 0)
                         {
                             _window.listBox.SelectedIndex -= 1;
                         }
-                    }));
+                    });
                     break;
             }
         }
 
         private void Events_GuideEventTriggered(object sender, EventArgs e)
         {
-            DispatchAction((() =>
+            DispatchAction(() =>
             {
                 Debugging.TraceInformation("Showing App");
                 _window.WindowState = System.Windows.WindowState.Normal;
+                _window.Show();
                 _window.Activate();
-            }));
+
+            });
         }
 
         private void DispatchAction(Action action)
         {
-            _window.Dispatcher.BeginInvoke((Action)(() =>
-            {
-                action();
-            }), System.Windows.Threading.DispatcherPriority.Normal);
+            _window.Dispatcher.BeginInvoke(action, System.Windows.Threading.DispatcherPriority.Normal);
         }
     }
 }

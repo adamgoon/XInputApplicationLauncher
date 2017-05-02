@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media;
 
 namespace XBoxControlTesting
 {
@@ -7,6 +8,7 @@ namespace XBoxControlTesting
         private string _name;
         private string _path;
         private string _args;
+        private ImageSource _icon;
 
         /// <summary>
         /// Name to be displayed
@@ -33,6 +35,15 @@ namespace XBoxControlTesting
         {
             get { return _args; }
             set { _args = value;  NotifyPropertyChanged(nameof(Arguments)); }
+        }
+
+        /// <summary>
+        /// Icon to be disaplyed
+        /// </summary>
+        public ImageSource Icon
+        {
+            get { return _icon; }
+            set { _icon = value; NotifyPropertyChanged(nameof(Arguments)); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

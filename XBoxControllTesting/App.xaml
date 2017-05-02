@@ -5,16 +5,11 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style x:Key="CustomWindow" TargetType="{x:Type Window}">
-            <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
-            <Setter Property="AllowsTransparency" Value="False"/>
+            <Setter Property="WindowStyle" Value="None"/>
+            <Setter Property="WindowState" Value="Normal"/>
+            <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="MinWidth" Value="100"/>
-            <Setter Property="MinHeight" Value="46"/>
-            <!--CaptionHeight + ResizeBorderThickness * 2-->
-            <Setter Property="Background" Value="Yellow"/>
-            <Setter Property="BorderBrush" Value="Green"/>
-            <Setter Property="BorderThickness" Value="5"/>
-            <Setter Property="Foreground" Value="DarkRed"/>
-            <!--<Setter Property="Template" Value="{StaticResource WindowTemplate}"/>-->
+            <Setter Property="MinHeight" Value="100"/>
         </Style>
     </Application.Resources>
 </Application>

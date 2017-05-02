@@ -20,6 +20,9 @@ namespace XBoxControlTesting
         {
             InitializeComponent();
             DataContext = this;
+            ShowInTaskbar = false;
+
+            CenterWindowOnScreen();
 
             Games = new ObservableCollection<ListBoxStuff>(Config.LoadConfig().OrderBy(x => x.Name));
 
@@ -48,6 +51,16 @@ namespace XBoxControlTesting
         private void TextBlock_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             _handlers.ClickEvent(sender);
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = Width;
+            double windowHeight = Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = screenHeight - windowHeight - 100;            
         }
     }
 }
