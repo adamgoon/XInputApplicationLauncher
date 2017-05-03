@@ -109,9 +109,7 @@ namespace XBoxControlTesting
             DispatchAction(() =>
             {
                 Debugging.TraceInformation("Showing App");
-                _window.WindowState = System.Windows.WindowState.Normal;
-                _window.Show();
-                _window.Activate();
+                _window.ShowWindow();
 
             });
         }
