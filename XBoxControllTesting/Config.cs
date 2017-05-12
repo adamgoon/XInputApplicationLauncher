@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -16,10 +17,8 @@ namespace XBoxControlTesting
             try
             {
                 var configFile = XDocument.Load("ProgramList.xml");
-
                 var gameList = configFile.Descendants("Programs");
-
-                List<ListBoxStuff> data = new List<ListBoxStuff>();
+                var data = new List<ListBoxStuff>();
 
                 foreach (var game in gameList.Descendants("Program"))
                 {
@@ -30,12 +29,12 @@ namespace XBoxControlTesting
                             Name = game.Element("Name").Value,
                             Path = game.Element("Path").Value,
                             Arguments = game.Element("Argument")?.Value,
-                            Icon = IconToImage(Icon.ExtractAssociatedIcon(game.Element("Path").Value))
+                            Icon = GetFileIcon(game.Element("Path").Value)
                         });
                     }
                 }
 
-                return data;
+                return data.OrderBy(x => x.Name);
             }
             catch (Exception ex)
             {
@@ -45,11 +44,12 @@ namespace XBoxControlTesting
             }
         }
 
-        private static ImageSource IconToImage(Icon icon)
+        private static ImageSource GetFileIcon(string path)
         {
-            Bitmap bmp = icon.ToBitmap();
+            var bitmap = Icon.ExtractAssociatedIcon(path).ToBitmap();
             var stream = new MemoryStream();
-            bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+
             return BitmapFrame.Create(stream);
         }
     }

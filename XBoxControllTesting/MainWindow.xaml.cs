@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using XBoxController;
@@ -29,15 +28,15 @@ namespace XBoxControlTesting
             _notifyIcon.Icon = System.Drawing.SystemIcons.Application;
             _notifyIcon.Text = "XBoxControlTesting";
             _notifyIcon.SetVisible(false);
-            _notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
 
+            _notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
             Activated += MainWindow_Activated;
             Deactivated += MainWindow_Deactivated;
             Closing += MainWindow_Closing;
 
             CenterWindowOnScreen();
 
-            Games = new ObservableCollection<ListBoxStuff>(Config.LoadConfig().OrderBy(x => x.Name));
+            Games = new ObservableCollection<ListBoxStuff>(Config.LoadConfig());
 
             if (Games != null) // Check for valid config
             {
@@ -86,12 +85,8 @@ namespace XBoxControlTesting
 
         private void CenterWindowOnScreen()
         {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = Width;
-            double windowHeight = Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = screenHeight - windowHeight - 100;
+            Left = (SystemParameters.PrimaryScreenWidth / 2) - (Width / 2);
+            Top = SystemParameters.PrimaryScreenHeight - Height - 100;
         }
 
         protected virtual void Dispose(bool disposing)

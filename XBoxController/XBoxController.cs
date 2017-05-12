@@ -1,25 +1,37 @@
 ﻿using System;
 using SharpDX.XInput;
-using Utils;
 
 namespace XBoxController
 {
     public class MonitorContollerButtons
     {
+        private const int LoopDelay = 10;
+        private const int ScrollDelay = 200;
+        private const int ButtonDelay = 500;
+        private const int NoDelay = 0;
+        private const int Deadzone = 20000;
+
         private bool _stop = false;
-        const int LoopDelay = 10;
-        const int ScrollDelay = 200;
-        const int ButtonDelay = 500;
+        
+        public void Start()
+        {
+            _stop = false;
+        }
+
+        public void Stop()
+        {
+            _stop = true;
+        }
 
         public MonitorContollerButtons()
         {
-            Controller controller = new Controller(UserIndex.One);
+            var controller = new Controller(UserIndex.One);
 
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
-                    int delay = LoopDelay;
+                    var delay = LoopDelay;
 
                     if (!_stop)
                     {
@@ -33,31 +45,20 @@ namespace XBoxController
             });
         }
 
-        public void Start()
-        {
-            _stop = false;
-        }
-
-        public void Stop()
-        {
-            _stop = true;
-        }
-
         private int CheckHomeButton()
         {
             if (NativeMethods.GetHomeButtonStatus((int)UserIndex.One))
             {
-                Debugging.TraceInformation(string.Format("Guide Button Pressed"));
                 Events.GuideTrigger(this, new EventArgs());
                 return ScrollDelay;
             }
 
-            return 0;
+            return NoDelay;
         }
 
         private int CheckInputs(Controller controller)
         {
-            int result = 0;
+            int result = NoDelay;
 
             if (controller.IsConnected)
             {
@@ -87,28 +88,16 @@ namespace XBoxController
                     result = ButtonDelay;
                 }
 
-                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.DPadDown) || (gamepad.LeftThumbY < -20000))
+                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.DPadDown) || (gamepad.LeftThumbY < -Deadzone))
                 {
-                    Debugging.TraceInformation(string.Format("Down requested"));
                     Events.ScrollTrigger(this, ScrollDirection.Down);
                     result = ScrollDelay;
                 }
 
-                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.DPadUp) || (gamepad.LeftThumbY > 20000))
+                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.DPadUp) || (gamepad.LeftThumbY > Deadzone))
                 {
-                    Debugging.TraceInformation(string.Format("Up Requested"));
                     Events.ScrollTrigger(this, ScrollDirection.Up);
                     result = ScrollDelay;
-                }
-
-                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.DPadLeft) || (gamepad.LeftThumbX < -20000))
-                {
-                    Events.ScrollTrigger(this, ScrollDirection.Left);
-                }
-
-                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.DPadRight) || (gamepad.LeftThumbX > 20000))
-                {
-                    Events.ScrollTrigger(this, ScrollDirection.Right);
                 }
             }
 

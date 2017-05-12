@@ -28,7 +28,7 @@ namespace XBoxControlTesting
             switch (e.SelectEvents)
             {
                 case Select.A:
-                    DispatchAction(() =>
+                    DispatchWindowAction(() =>
                     {
                         if (_window.listBox.SelectedIndex > -1)
                         {
@@ -41,14 +41,14 @@ namespace XBoxControlTesting
                     });
                     break;
                 case Select.Y:
-                    DispatchAction(() =>
+                    DispatchWindowAction(() =>
                     {
                         if (_window.listBox.SelectedIndex > -1)
                         {
                             var path = ((ListBoxStuff)_window.listBox.SelectedItem).Path;
                             var name = Path.GetFileNameWithoutExtension(path);
-                            
-                            Process[] processes = Process.GetProcessesByName(name);
+                            var processes = Process.GetProcessesByName(name);
+
                             if (processes.Length == 0)
                             {
                                 Debugging.TraceInformation(string.Format("Cannot close, could not find '{0}'", path));
@@ -66,7 +66,7 @@ namespace XBoxControlTesting
 
                     break;
                 case Select.B:
-                    DispatchAction(() =>
+                    DispatchWindowAction(() =>
                     {
                         Debugging.TraceInformation(string.Format("Attempting to hide window"));
                          _window.Hide();
@@ -84,7 +84,7 @@ namespace XBoxControlTesting
             switch (e.ScrollEvent)
             {
                 case ScrollDirection.Down:
-                    DispatchAction(() =>
+                    DispatchWindowAction(() =>
                     {
                         if (_window.listBox.SelectedIndex < _window.listBox.Items.Count)
                         {
@@ -93,7 +93,7 @@ namespace XBoxControlTesting
                     });
                     break;
                 case ScrollDirection.Up:
-                    DispatchAction(() =>
+                    DispatchWindowAction(() =>
                     {
                         if (_window.listBox.SelectedIndex > 0)
                         {
@@ -106,7 +106,7 @@ namespace XBoxControlTesting
 
         private void Events_GuideEventTriggered(object sender, EventArgs e)
         {
-            DispatchAction(() =>
+            DispatchWindowAction(() =>
             {
                 Debugging.TraceInformation("Showing App");
                 _window.ShowWindow();
@@ -114,7 +114,7 @@ namespace XBoxControlTesting
             });
         }
 
-        private void DispatchAction(Action action)
+        private void DispatchWindowAction(Action action)
         {
             _window.Dispatcher.BeginInvoke(action, System.Windows.Threading.DispatcherPriority.Normal);
         }
