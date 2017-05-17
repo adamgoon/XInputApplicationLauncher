@@ -32,11 +32,10 @@ namespace XBoxControlTesting
                     {
                         if (_window.listBox.SelectedIndex > -1)
                         {
-                            var path = ((ListBoxStuff)_window.listBox.SelectedItem).Path;
-                            var args = ((ListBoxStuff)_window.listBox.SelectedItem).Arguments;
+                            var applicationItem = (ApplicationItem)_window.listBox.SelectedItem;
                             
-                            Debugging.TraceInformation(string.Format("Attempting to launch '{0} {1}'", path, args));
-                            var process = Process.Start(path, args);
+                            Debugging.TraceInformation(string.Format("Attempting to launch '{0} {1}'", applicationItem.Path, applicationItem.Arguments));
+                            var process = Process.Start(applicationItem.Path, applicationItem.Arguments);
                         }
                     });
                     break;
@@ -45,15 +44,11 @@ namespace XBoxControlTesting
                     {
                         if (_window.listBox.SelectedIndex > -1)
                         {
-                            var path = ((ListBoxStuff)_window.listBox.SelectedItem).Path;
+                            var path = ((ApplicationItem)_window.listBox.SelectedItem).Path;
                             var name = Path.GetFileNameWithoutExtension(path);
                             var processes = Process.GetProcessesByName(name);
 
-                            if (processes.Length == 0)
-                            {
-                                Debugging.TraceInformation(string.Format("Cannot close, could not find '{0}'", path));
-                            }
-                            else
+                            if (processes.Length > 0)
                             {
                                 Debugging.TraceInformation(string.Format("Attempting to close '{0}'", path));
                                 foreach (var process in processes)
