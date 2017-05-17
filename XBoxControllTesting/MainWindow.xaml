@@ -6,8 +6,30 @@
         xmlns:local="clr-namespace:XBoxControlTesting"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Style="{StaticResource CustomWindow}" Background="Black" >
+    <Window.Resources>
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="BorderStyle">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="DarkSlateBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="#FF070E0E" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="525" ItemsSource="{Binding Games}" Background="#FF122121" Foreground="White" BorderThickness="1" BorderBrush="#FF323232" >
+        <ListBox x:Name="listBox" ItemContainerStyle="{DynamicResource ListBoxItemStyle}" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="525" ItemsSource="{Binding Games}" Background="#FF122121" Foreground="White" BorderThickness="1" BorderBrush="#FF323232"  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" MouseDown="TextBlock_MouseDown">
