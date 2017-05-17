@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace XBoxControlTesting
 {
-    public class ListBoxStuff : INotifyPropertyChanged
+    public class ApplicationItem : INotifyPropertyChanged
     {
         private string _name;
         private string _path;

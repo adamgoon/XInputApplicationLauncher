@@ -12,19 +12,19 @@ namespace XBoxControlTesting
 {
     public static class Config
     {
-        public static IEnumerable<ListBoxStuff> LoadConfig()
+        public static IEnumerable<ApplicationItem> LoadConfig()
         {
             try
             {
                 var configFile = XDocument.Load("ProgramList.xml");
                 var gameList = configFile.Descendants("Programs");
-                var data = new List<ListBoxStuff>();
+                var data = new List<ApplicationItem>();
 
                 foreach (var game in gameList.Descendants("Program"))
                 {
                     if (File.Exists(game.Element("Path").Value))
                     {
-                        data.Add(new ListBoxStuff
+                        data.Add(new ApplicationItem
                         {
                             Name = game.Element("Name").Value,
                             Path = game.Element("Path").Value,

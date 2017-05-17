@@ -12,7 +12,7 @@ namespace XBoxControlTesting
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
-        public ObservableCollection<ListBoxStuff> Games { get; private set; }
+        public ObservableCollection<ApplicationItem> Games { get; private set; }
 
         private MonitorContollerButtons _monitorContollerButtons;
         private EventHandlers _handlers;
@@ -36,7 +36,7 @@ namespace XBoxControlTesting
 
             CenterWindowOnScreen();
 
-            Games = new ObservableCollection<ListBoxStuff>(Config.LoadConfig());
+            Games = new ObservableCollection<ApplicationItem>(Config.LoadConfig());
 
             if (Games != null) // Check for valid config
             {
