@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using XBoxController;
 
 namespace XBoxControlTesting
 {
@@ -13,5 +9,25 @@ namespace XBoxControlTesting
     /// </summary>
     public partial class App : Application
     {
+        public MonitorContoller MonitorContollerButtons { get; }
+
+        public App()
+        {
+            MonitorContollerButtons = new MonitorContoller();
+
+            Activated += App_Activated;
+            Deactivated += App_Deactivated;
+
+            MonitorContollerButtons.Start();
+        }
+
+        private void App_Activated(object sender, EventArgs e)
+        {
+            MonitorContollerButtons.Start();
+        }
+        private void App_Deactivated(object sender, EventArgs e)
+        {
+            MonitorContollerButtons.Stop();
+        }
     }
 }

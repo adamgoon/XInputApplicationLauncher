@@ -3,7 +3,7 @@ using SharpDX.XInput;
 
 namespace XBoxController
 {
-    public class MonitorContollerButtons
+    public class MonitorContoller
     {
         private const int LoopDelay = 10;
         private const int ScrollDelay = 200;
@@ -12,7 +12,9 @@ namespace XBoxController
         private const int Deadzone = 20000;
 
         private bool _stop = false;
-        
+        private UserIndex _userIndex = UserIndex.One;
+        private Controller _controller;
+
         public void Start()
         {
             _stop = false;
@@ -23,9 +25,9 @@ namespace XBoxController
             _stop = true;
         }
 
-        public MonitorContollerButtons()
+        public MonitorContoller()
         {
-            var controller = new Controller(UserIndex.One);
+            _controller = new Controller(_userIndex);
 
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
@@ -35,7 +37,7 @@ namespace XBoxController
 
                     if (!_stop)
                     {
-                        delay = CheckInputs(controller);
+                        delay = CheckInputs();
                     }
 
                     delay = Math.Max(delay, CheckHomeButton());
@@ -45,9 +47,19 @@ namespace XBoxController
             });
         }
 
+        public BatteryLevel GetBatteryInformation()
+        {
+            if (_controller.IsConnected)
+            {
+                return (BatteryLevel)_controller.GetBatteryInformation(BatteryDeviceType.Gamepad).BatteryLevel;
+            }
+
+            return BatteryLevel.Unknown;
+        }
+
         private int CheckHomeButton()
         {
-            if (NativeMethods.GetHomeButtonStatus((int)UserIndex.One))
+            if (NativeMethods.GetHomeButtonStatus((int)_userIndex))
             {
                 Events.GuideTrigger(this, new EventArgs());
                 return ScrollDelay;
@@ -56,13 +68,13 @@ namespace XBoxController
             return NoDelay;
         }
 
-        private int CheckInputs(Controller controller)
+        private int CheckInputs()
         {
             int result = NoDelay;
 
-            if (controller.IsConnected)
+            if (_controller.IsConnected)
             {
-                var gamepad = controller.GetState().Gamepad;
+                var gamepad = _controller.GetState().Gamepad;
 
                 if (gamepad.Buttons.HasFlag(GamepadButtonFlags.A))
                 {
@@ -85,6 +97,12 @@ namespace XBoxController
                 if (gamepad.Buttons.HasFlag(GamepadButtonFlags.Y))
                 {
                     Events.SelectTrigger(this, Select.Y);
+                    result = ButtonDelay;
+                }
+
+                if (gamepad.Buttons.HasFlag(GamepadButtonFlags.Start))
+                {
+                    Events.MenuTrigger(this, new EventArgs());
                     result = ButtonDelay;
                 }
 

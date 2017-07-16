@@ -6,16 +6,18 @@ using XBoxController;
 
 namespace XBoxControlTesting
 {
-    class EventHandlers
+    class MainWindowEventHandlers
     {
-        private MainWindow _window;
+        private readonly MainWindow _mainWindow;
+        private readonly MenuWindow _menuWindow;
 
-        public EventHandlers(MainWindow window)
+        public MainWindowEventHandlers(MainWindow window)
         {
-            _window = window;
+            _mainWindow = window;
+            _menuWindow = new MenuWindow();
+
             Events.GuideEventTriggered += Events_GuideEventTriggered;
-            Events.ScrollEventTriggered += Events_ScrollEventTriggered;
-            Events.SelectEventTriggered += Events_SelectEventTriggered;
+            StartMonitoringEvents();
         }
 
         public void ClickEvent(object sender)
@@ -23,6 +25,20 @@ namespace XBoxControlTesting
             Events_SelectEventTriggered(sender, new SelectEventArgs { SelectEvents = Select.A });
         }
 
+        private void StartMonitoringEvents()
+        {
+            Events.ScrollEventTriggered += Events_ScrollEventTriggered;
+            Events.SelectEventTriggered += Events_SelectEventTriggered;
+            Events.MenuEventTriggered += Events_MenuEventTriggered;
+        }
+
+        private void StopMonitoringEvents()
+        {
+            Events.ScrollEventTriggered -= Events_ScrollEventTriggered;
+            Events.SelectEventTriggered -= Events_SelectEventTriggered;
+            Events.MenuEventTriggered -= Events_MenuEventTriggered;
+        }
+        
         private void Events_SelectEventTriggered(object sender, SelectEventArgs e)
         {
             switch (e.SelectEvents)
@@ -30,11 +46,11 @@ namespace XBoxControlTesting
                 case Select.A:
                     DispatchWindowAction(() =>
                     {
-                        if (_window.listBox.SelectedIndex > -1)
+                        if (_mainWindow.listBox.SelectedIndex > -1)
                         {
-                            var applicationItem = (ApplicationItem)_window.listBox.SelectedItem;
+                            var applicationItem = (ApplicationItem)_mainWindow.listBox.SelectedItem;
                             
-                            Debugging.TraceInformation(string.Format("Attempting to launch '{0} {1}'", applicationItem.Path, applicationItem.Arguments));
+                            Debugging.TraceInformation(string.Format($"Attempting to launch '{applicationItem.Path} {applicationItem.Arguments}'"));
                             var process = Process.Start(applicationItem.Path, applicationItem.Arguments);
                         }
                     });
@@ -42,15 +58,15 @@ namespace XBoxControlTesting
                 case Select.Y:
                     DispatchWindowAction(() =>
                     {
-                        if (_window.listBox.SelectedIndex > -1)
+                        if (_mainWindow.listBox.SelectedIndex > -1)
                         {
-                            var path = ((ApplicationItem)_window.listBox.SelectedItem).Path;
+                            var path = ((ApplicationItem)_mainWindow.listBox.SelectedItem).Path;
                             var name = Path.GetFileNameWithoutExtension(path);
                             var processes = Process.GetProcessesByName(name);
 
                             if (processes.Length > 0)
                             {
-                                Debugging.TraceInformation(string.Format("Attempting to close '{0}'", path));
+                                Debugging.TraceInformation(string.Format($"Attempting to close '{path}'"));
                                 foreach (var process in processes)
                                 {
                                     process.Kill();
@@ -64,12 +80,8 @@ namespace XBoxControlTesting
                     DispatchWindowAction(() =>
                     {
                         Debugging.TraceInformation(string.Format("Attempting to hide window"));
-                         _window.Hide();
+                         _mainWindow.Hide();
                     });
-                    break;
-                case Select.X:
-                default:
-                    /* Do Something */
                     break;
             }
         }
@@ -81,18 +93,18 @@ namespace XBoxControlTesting
                 case ScrollDirection.Down:
                     DispatchWindowAction(() =>
                     {
-                        if (_window.listBox.SelectedIndex < _window.listBox.Items.Count)
+                        if (_mainWindow.listBox.SelectedIndex < _mainWindow.listBox.Items.Count)
                         {
-                            _window.listBox.SelectedIndex += 1;
+                            _mainWindow.listBox.SelectedIndex++;
                         }
                     });
                     break;
                 case ScrollDirection.Up:
                     DispatchWindowAction(() =>
                     {
-                        if (_window.listBox.SelectedIndex > 0)
+                        if (_mainWindow.listBox.SelectedIndex > 0)
                         {
-                            _window.listBox.SelectedIndex -= 1;
+                            _mainWindow.listBox.SelectedIndex--;
                         }
                     });
                     break;
@@ -104,14 +116,26 @@ namespace XBoxControlTesting
             DispatchWindowAction(() =>
             {
                 Debugging.TraceInformation("Showing App");
-                _window.ShowWindow();
-
+                _mainWindow.ShowWindow();
             });
+        }
+
+        private void Events_MenuEventTriggered(object sender, EventArgs e)
+        {
+            StopMonitoringEvents();
+
+            DispatchWindowAction(() =>
+            {
+                _menuWindow.Owner = _mainWindow;
+                _menuWindow.ShowDialog();
+                StartMonitoringEvents();
+            });
+
         }
 
         private void DispatchWindowAction(Action action)
         {
-            _window.Dispatcher.BeginInvoke(action, System.Windows.Threading.DispatcherPriority.Normal);
+            _mainWindow.Dispatcher.BeginInvoke(action, System.Windows.Threading.DispatcherPriority.Normal);
         }
     }
 }

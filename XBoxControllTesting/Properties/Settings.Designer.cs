@@ -22,14 +22,5 @@ namespace XBoxControlTesting.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int SteamLoadTimeout {
-            get {
-                return ((int)(this["SteamLoadTimeout"]));
-            }
-        }
     }
 }

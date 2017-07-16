@@ -7,7 +7,7 @@ namespace Utils
     {
         public static void TraceInformation(string message)
         {
-            System.Diagnostics.Trace.TraceInformation("{0}: {1}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture), message);
+            System.Diagnostics.Trace.TraceInformation($"{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture)}: {message}");
         }
     }
 }

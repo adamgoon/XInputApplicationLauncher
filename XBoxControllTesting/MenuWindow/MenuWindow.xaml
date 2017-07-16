@@ -1,11 +1,11 @@
-﻿<Window x:Class="XBoxControlTesting.MainWindow"
+﻿<Window x:Class="XBoxControlTesting.MenuWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XBoxControlTesting"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Style="{StaticResource CustomWindow}" Background="Black" >
+        Title="Menu" Height="300" Width="200" Style="{StaticResource CustomWindow}" Background="Black" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" >
     <Window.Resources>
         <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -29,11 +29,10 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <ListBox x:Name="listBox" ItemContainerStyle="{DynamicResource ListBoxItemStyle}" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="525" ItemsSource="{Binding Games}" Background="#FF122121" Foreground="White" BorderThickness="1" BorderBrush="#FF323232"  >
+        <ListBox x:Name="listBox" ItemContainerStyle="{DynamicResource ListBoxItemStyle}" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="525" ItemsSource="{Binding MenuWindowItems}" Background="#FF122121" Foreground="White" BorderThickness="1" BorderBrush="#FF323232"  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" MouseDown="TextBlock_MouseDown">
-                        <Image Source="{Binding Path=Icon, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                         <TextBlock Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="3" FontFamily="Segoe UI Light" FontSize="20"/>
                     </StackPanel>
                 </DataTemplate>

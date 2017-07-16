@@ -38,7 +38,7 @@ namespace XBoxControlTesting
             }
             catch (Exception ex)
             {
-                Debugging.TraceInformation(string.Format("Could not load config file: {0}", ex.Message));
+                Debugging.TraceInformation(string.Format($"Could not load config file: {ex.Message}"));
 
                 return null;
             }
