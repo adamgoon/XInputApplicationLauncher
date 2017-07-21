@@ -12,12 +12,18 @@ namespace XBoxController
         public Select SelectEvents{ get; set; }
     }
 
+    public class BatteryEventArgs : EventArgs
+    {
+        public BatteryLevel BatteryLevel { get; set; }
+    }
+
     public static class Events
     {
         public static event EventHandler<ScrollEventArgs> ScrollEventTriggered;
         public static event EventHandler<SelectEventArgs> SelectEventTriggered;
         public static event EventHandler GuideEventTriggered;
         public static event EventHandler MenuEventTriggered;
+        public static event EventHandler<BatteryEventArgs> BatteryEventTriggered;
 
         internal static void ScrollTrigger(object sender, ScrollDirection e)
         {
@@ -37,6 +43,11 @@ namespace XBoxController
         internal static void MenuTrigger(object sender, EventArgs e)
         {
             MenuEventTriggered?.Invoke(sender, e);
+        }
+
+        internal static void BatteryTrigger(object sender, BatteryLevel e)
+        {
+            BatteryEventTriggered?.Invoke(sender, new BatteryEventArgs { BatteryLevel = e });
         }
     }
 }

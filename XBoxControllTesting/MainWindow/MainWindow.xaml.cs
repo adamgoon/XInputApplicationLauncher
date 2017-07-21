@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 using XBoxController;
 
 namespace XBoxControlTesting
@@ -10,11 +11,11 @@ namespace XBoxControlTesting
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<ApplicationItem> Games { get; private set; }
-        public BatteryInformation ControllerBatteryLevel { get; private set; }
+        public IEnumerable<ApplicationItem> Games { get; private set; }
+        public BatteryInformation ControllerBatteryInformation { get; private set; }
 
+        private readonly MonitorContoller _monitorContoller;
         private readonly MainWindowEventHandlers _handlers;
-        private readonly MonitorContoller _monitorContollerButtons;
         
         public MainWindow()
         {
@@ -22,15 +23,19 @@ namespace XBoxControlTesting
             DataContext = this;
             ShowInTaskbar = false;
 
-            _monitorContollerButtons = ((App)Application.Current).MonitorContollerButtons;
-
             CenterWindowOnScreen();
 
+            _monitorContoller = ((App)Application.Current).MonitorContoller;
+
             Games = new ObservableCollection<ApplicationItem>(Config.LoadConfig());
+            ControllerBatteryInformation = new BatteryInformation();
 
-            _handlers = new MainWindowEventHandlers(this);
-
-            ControllerBatteryLevel = new BatteryInformation(_monitorContollerButtons.GetBatteryInformation());
+            _handlers = new MainWindowEventHandlers(this);          
+        }
+        
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _handlers?.ClickEvent(sender);
         }
 
         public void ShowWindow()
@@ -38,11 +43,6 @@ namespace XBoxControlTesting
             WindowState = WindowState.Normal;
             Show();
             Activate();
-        }
-        
-        private void TextBlock_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            _handlers?.ClickEvent(sender);
         }
 
         private void CenterWindowOnScreen()

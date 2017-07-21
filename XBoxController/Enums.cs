@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace XBoxController
 {
     public enum ScrollDirection
@@ -29,5 +24,14 @@ namespace XBoxController
         Medium,
         Full,
         Unknown
+    }
+
+    public enum BatteryType
+    {
+        Disconnected = 0,
+        Wired = 1,
+        Alkaline = 2,
+        Nimh = 3,
+        Unknown = 255
     }
 }

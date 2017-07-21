@@ -9,6 +9,7 @@ using XBoxController;
 
 namespace XBoxControlTesting
 {
+    [ValueConversion(typeof(BatteryLevel), typeof(BitmapImage))]
     class ControllerBatteryLevelConverter : IValueConverter
     {
         public object Convert(object value, Type type, object parameter, CultureInfo culture)
@@ -17,7 +18,7 @@ namespace XBoxControlTesting
 
             try
             {
-                level = ((BatteryInformation)value).Level;
+                level = (BatteryLevel)value;
             }
             catch
             {

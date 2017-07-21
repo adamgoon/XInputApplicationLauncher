@@ -30,6 +30,7 @@ namespace XBoxControlTesting
             Events.ScrollEventTriggered += Events_ScrollEventTriggered;
             Events.SelectEventTriggered += Events_SelectEventTriggered;
             Events.MenuEventTriggered += Events_MenuEventTriggered;
+            Events.BatteryEventTriggered += Events_BatteryEventTriggered;
         }
 
         private void StopMonitoringEvents()
@@ -38,7 +39,7 @@ namespace XBoxControlTesting
             Events.SelectEventTriggered -= Events_SelectEventTriggered;
             Events.MenuEventTriggered -= Events_MenuEventTriggered;
         }
-        
+
         private void Events_SelectEventTriggered(object sender, SelectEventArgs e)
         {
             switch (e.SelectEvents)
@@ -49,7 +50,7 @@ namespace XBoxControlTesting
                         if (_mainWindow.listBox.SelectedIndex > -1)
                         {
                             var applicationItem = (ApplicationItem)_mainWindow.listBox.SelectedItem;
-                            
+
                             Debugging.TraceInformation(string.Format($"Attempting to launch '{applicationItem.Path} {applicationItem.Arguments}'"));
                             var process = Process.Start(applicationItem.Path, applicationItem.Arguments);
                         }
@@ -69,7 +70,8 @@ namespace XBoxControlTesting
                                 Debugging.TraceInformation(string.Format($"Attempting to close '{path}'"));
                                 foreach (var process in processes)
                                 {
-                                    process.Kill();
+                                    try { process.Kill(); }
+                                    catch { /* Killing a process sometimes throws an exception */ }
                                 }
                             }
                         }
@@ -80,7 +82,7 @@ namespace XBoxControlTesting
                     DispatchWindowAction(() =>
                     {
                         Debugging.TraceInformation(string.Format("Attempting to hide window"));
-                         _mainWindow.Hide();
+                        _mainWindow.Hide();
                     });
                     break;
             }
@@ -131,6 +133,11 @@ namespace XBoxControlTesting
                 StartMonitoringEvents();
             });
 
+        }
+
+        private void Events_BatteryEventTriggered(object sender, BatteryEventArgs e)
+        {
+            _mainWindow.ControllerBatteryInformation.Level = e.BatteryLevel;
         }
 
         private void DispatchWindowAction(Action action)

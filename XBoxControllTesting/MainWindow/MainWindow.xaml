@@ -40,6 +40,6 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<Image HorizontalAlignment="Left" Height="30" Margin="485,310,0,0" VerticalAlignment="Top" Width="30" Source="{Binding ControllerBatteryLevel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ControllerBatteryLevelConverter}}"/>
+		<Image HorizontalAlignment="Left" Height="30" Margin="485,310,0,0" VerticalAlignment="Top" Width="30" Source="{Binding ControllerBatteryInformation.Level, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ControllerBatteryLevelConverter}}"/>
 	</Grid>
 </Window>

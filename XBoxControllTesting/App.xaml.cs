@@ -9,25 +9,16 @@ namespace XBoxControlTesting
     /// </summary>
     public partial class App : Application
     {
-        public MonitorContoller MonitorContollerButtons { get; }
+        public MonitorContoller MonitorContoller { get; }
 
         public App()
         {
-            MonitorContollerButtons = new MonitorContoller();
+            MonitorContoller = new MonitorContoller();
 
-            Activated += App_Activated;
-            Deactivated += App_Deactivated;
+            Activated += (o, e) => { MonitorContoller.Start(); };
+            Deactivated += (o, e) => { MonitorContoller.Stop(); };
 
-            MonitorContollerButtons.Start();
-        }
-
-        private void App_Activated(object sender, EventArgs e)
-        {
-            MonitorContollerButtons.Start();
-        }
-        private void App_Deactivated(object sender, EventArgs e)
-        {
-            MonitorContollerButtons.Stop();
+            MonitorContoller.Start();
         }
     }
 }
