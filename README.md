@@ -1,4 +1,4 @@
-# XInputAppplicationLauncher
+# XInputApplicationLauncher
 Launch Programs using an XInput controller
 
 #### Building:
