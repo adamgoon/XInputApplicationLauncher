@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Utils;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     public static class Config
     {

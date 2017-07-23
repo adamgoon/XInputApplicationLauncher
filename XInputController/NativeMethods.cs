@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace XBoxController
+namespace XInputController
 {
     public static class NativeMethods
     {

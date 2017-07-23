@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XBoxController
+namespace XInputController
 {
     public class ScrollEventArgs : EventArgs
     {

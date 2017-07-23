@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     public class MenuItem
     {

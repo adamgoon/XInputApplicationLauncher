@@ -1,8 +1,8 @@
 ﻿using System;
 using Utils;
-using XBoxController;
+using XInputController;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     class MenuWindowEventHandlers
     {

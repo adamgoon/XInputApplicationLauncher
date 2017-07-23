@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     public class ApplicationItem
     {

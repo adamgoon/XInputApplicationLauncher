@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using XBoxController;
+using XInputController;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

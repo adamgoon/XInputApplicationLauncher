@@ -1,5 +1,5 @@
 ﻿
-namespace XBoxController
+namespace XInputController
 {
     public enum ScrollDirection
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{DAC1F901-9AF6-4BE5-9B8F-372028E76A62}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XBoxController</RootNamespace>
-    <AssemblyName>XBoxController</AssemblyName>
+    <RootNamespace>XInputController</RootNamespace>
+    <AssemblyName>XInputController</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

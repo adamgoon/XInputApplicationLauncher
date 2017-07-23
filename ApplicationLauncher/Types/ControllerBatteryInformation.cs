@@ -1,22 +1,14 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using XBoxController;
+using XInputController;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     public class BatteryInformation : INotifyPropertyChanged
     {
         private BatteryLevel _level = BatteryLevel.Unknown;
         private BatteryType _type = BatteryType.Unknown;
-
-        public BatteryInformation()
-        { }
-
-        public BatteryInformation(BatteryLevel level)
-        {
-            _level = level;
-        }
-
+        
         /// <summary>
         /// Battery level
         /// </summary>

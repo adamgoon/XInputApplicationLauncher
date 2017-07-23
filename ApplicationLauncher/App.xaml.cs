@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows;
-using XBoxController;
+﻿using System.Windows;
+using XInputController;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     /// <summary>
     /// Interaction logic for App.xaml

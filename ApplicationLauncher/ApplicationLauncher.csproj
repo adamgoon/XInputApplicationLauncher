@@ -7,8 +7,8 @@
     <ProjectGuid>{73B25511-4489-4D72-A0DE-8A14D7625854}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XBoxControlTesting</RootNamespace>
-    <AssemblyName>XBoxControlTesting</AssemblyName>
+    <RootNamespace>ApplicationLauncher</RootNamespace>
+    <AssemblyName>ApplicationLauncher</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -138,9 +138,9 @@
       <Project>{8fa99c7a-03e9-4677-93f7-9d190fda0a3b}</Project>
       <Name>Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XBoxController\XBoxController.csproj">
+    <ProjectReference Include="..\XInputController\XInputController.csproj">
       <Project>{dac1f901-9af6-4be5-9b8f-372028e76a62}</Project>
-      <Name>XBoxController</Name>
+      <Name>XInputController</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +154,13 @@
     <Resource Include="Resources\batt_full.png" />
     <Resource Include="Resources\batt_empty.png" />
     <Resource Include="Resources\batt_full.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

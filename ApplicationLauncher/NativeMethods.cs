@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     public static class NativeMethods
     {

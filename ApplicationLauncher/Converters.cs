@@ -5,9 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using XBoxController;
+using XInputController;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     [ValueConversion(typeof(BatteryLevel), typeof(BitmapImage))]
     class ControllerBatteryLevelConverter : IValueConverter
@@ -36,41 +36,38 @@ namespace XBoxControlTesting
 
         private static BitmapImage GetBitmapImage(BatteryLevel level)
         {
-            Bitmap bitmap;
-
             switch (level)
             {
                 case BatteryLevel.Empty:
-                    bitmap = Properties.Resources.batt_empty;
-                    break;
+                    return BitmapToBitmapImage(Properties.Resources.batt_empty);
                 case BatteryLevel.Low:
-                    bitmap = Properties.Resources.batt_low;
-                    break;
+                    return BitmapToBitmapImage(Properties.Resources.batt_low);
                 case BatteryLevel.Medium:
-                    bitmap = Properties.Resources.batt_med;
-                    break;
+                    return BitmapToBitmapImage(Properties.Resources.batt_med);
                 case BatteryLevel.Full:
-                    bitmap = Properties.Resources.batt_full;
-                    break;
+                    return BitmapToBitmapImage(Properties.Resources.batt_full);
                 case BatteryLevel.Unknown:
                 default:
-                    bitmap = Properties.Resources.batt_unknown;
-                    break;
+                    return BitmapToBitmapImage(Properties.Resources.batt_unknown);
             }
+        }
 
-            var bitmapImage = new BitmapImage();
-
+        private static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
+        {
             using (var memory = new MemoryStream())
             {
                 bitmap.Save(memory, ImageFormat.Png);
                 memory.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = memory;
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.EndInit();
-            }
 
-            return bitmapImage;
+                return bitmapImage;
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ using SharpDX.XInput;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace XBoxController
+namespace XInputController
 {
     public class MonitorContoller
     {
@@ -39,14 +39,18 @@ namespace XBoxController
                 {
                     var delays = new List<int>();
 
-                    if (_controller.IsConnected && !_stop)
+                    if (_controller.IsConnected)
                     {
-                        var gamepad = _controller.GetState().Gamepad;
-                        var buttons = gamepad.Buttons;
-                        var leftThumbY = gamepad.LeftThumbY;
+                        if (!_stop)
+                        {
+                            var gamepad = _controller.GetState().Gamepad;
+                            var buttons = gamepad.Buttons;
+                            var leftThumbY = gamepad.LeftThumbY;
 
-                        delays.Add(CheckButtons(buttons));
-                        delays.Add(CheckScroll(buttons, leftThumbY));
+                            delays.Add(CheckButtons(buttons));
+                            delays.Add(CheckScroll(buttons, leftThumbY));
+                        }
+
                         GetBatteryInformation();
                     }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XBoxControlTesting.Properties {
+namespace ApplicationLauncher.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace XBoxControlTesting.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XBoxControlTesting.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ApplicationLauncher.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -107,6 +107,33 @@ namespace XBoxControlTesting.Properties {
             get {
                 object obj = ResourceManager.GetObject("batt_unknown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close Menu.
+        /// </summary>
+        internal static string Menu_Close {
+            get {
+                return ResourceManager.GetString("Menu_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit Applicaiton.
+        /// </summary>
+        internal static string Menu_Exit {
+            get {
+                return ResourceManager.GetString("Menu_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Applicaiton.
+        /// </summary>
+        internal static string Menu_Hide {
+            get {
+                return ResourceManager.GetString("Menu_Hide", resourceCulture);
             }
         }
     }

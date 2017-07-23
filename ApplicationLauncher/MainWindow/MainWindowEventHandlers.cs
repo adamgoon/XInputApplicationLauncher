@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using Utils;
-using XBoxController;
+using XInputController;
 
-namespace XBoxControlTesting
+namespace ApplicationLauncher
 {
     class MainWindowEventHandlers
     {
