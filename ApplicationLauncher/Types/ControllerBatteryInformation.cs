@@ -6,23 +6,23 @@ namespace ApplicationLauncher
 {
     public class BatteryInformation : INotifyPropertyChanged
     {
-        private BatteryLevel _level = BatteryLevel.Unknown;
-        private BatteryType _type = BatteryType.Unknown;
+        private BatteryLevel _batteryLevel = BatteryLevel.Unknown;
+        private BatteryType _batteryType = BatteryType.Unknown;
         
         /// <summary>
         /// Battery level
         /// </summary>
-        public BatteryLevel Level
+        public BatteryLevel BatteryLevel
         {
-            get { return _level; }
+            get { return _batteryLevel; }
             set
             {
-                if (_level == value)
+                if (_batteryLevel == value)
                 {
                     return;
                 }
 
-                _level = value;
+                _batteryLevel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -30,17 +30,17 @@ namespace ApplicationLauncher
         /// <summary>
         /// Battery type
         /// </summary>
-        public BatteryType Type
+        public BatteryType BatteryType
         {
-            get { return _type; }
+            get { return _batteryType; }
             set
             {
-                if (_type == value)
+                if (_batteryType == value)
                 {
                     return;
                 }
 
-                _type = value;
+                _batteryType = value;
                 NotifyPropertyChanged();
             }
         }

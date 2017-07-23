@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace XInputController
 {
-    public class MonitorContoller
+    public class MonitorController
     {
         private const int LoopDelay = 10;
         private const int ScrollDelay = 200;
@@ -29,7 +29,7 @@ namespace XInputController
             _stop = true;
         }
 
-        public MonitorContoller()
+        public MonitorController()
         {
             _controller = new Controller(SelectedUserIndex);
 

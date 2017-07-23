@@ -14,7 +14,6 @@ namespace ApplicationLauncher
         public IEnumerable<ApplicationItem> Games { get; private set; }
         public BatteryInformation ControllerBatteryInformation { get; private set; }
 
-        private readonly MonitorContoller _monitorContoller;
         private readonly MainWindowEventHandlers _handlers;
         
         public MainWindow()
@@ -24,9 +23,7 @@ namespace ApplicationLauncher
             ShowInTaskbar = false;
 
             CenterWindowOnScreen();
-
-            _monitorContoller = ((App)Application.Current).MonitorContoller;
-
+            
             Games = new ObservableCollection<ApplicationItem>(Config.LoadConfig());
             ControllerBatteryInformation = new BatteryInformation();
 

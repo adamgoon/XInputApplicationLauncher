@@ -83,7 +83,6 @@
     <Compile Include="MenuWindow\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Types\ApplicationItem.cs" />
     <Page Include="MainWindow\MainWindow.xaml">

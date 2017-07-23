@@ -19,7 +19,6 @@ namespace ApplicationLauncher
             {
                 return WindowPadding + (MenuWindowItems.Count() * MenuWindowItemHeight);
             }
-            set { }
         }
 
         private const int WindowPadding = 10;

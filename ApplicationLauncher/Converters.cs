@@ -10,9 +10,9 @@ using XInputController;
 namespace ApplicationLauncher
 {
     [ValueConversion(typeof(BatteryLevel), typeof(BitmapImage))]
-    class ControllerBatteryLevelConverter : IValueConverter
+    public class ControllerBatteryLevelConverter : IValueConverter
     {
-        public object Convert(object value, Type type, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             BatteryLevel level;
 
@@ -20,16 +20,15 @@ namespace ApplicationLauncher
             {
                 level = (BatteryLevel)value;
             }
-            catch
+            catch (InvalidCastException)
             {
-                // Could not cast value to BatteryInformation type
                 level = BatteryLevel.Unknown;
             }
 
             return GetBitmapImage(level);
         }
 
-        public object ConvertBack(object value, Type type, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

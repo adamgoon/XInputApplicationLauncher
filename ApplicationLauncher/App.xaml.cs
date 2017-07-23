@@ -1,23 +1,25 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using XInputController;
 
 namespace ApplicationLauncher
 {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        public MonitorContoller MonitorContoller { get; }
+        public MonitorController MonitorController { get; }
 
         public App()
         {
-            MonitorContoller = new MonitorContoller();
+            MonitorController = new MonitorController();
 
-            Activated += (o, e) => { MonitorContoller.Start(); };
-            Deactivated += (o, e) => { MonitorContoller.Stop(); };
+            Activated += (o, e) => { MonitorController.Start(); };
+            Deactivated += (o, e) => { MonitorController.Stop(); };
 
-            MonitorContoller.Start();
+            MonitorController.Start();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace ApplicationLauncher
                             var applicationItem = (ApplicationItem)_mainWindow.listBox.SelectedItem;
 
                             Debugging.TraceInformation(string.Format($"Attempting to launch '{applicationItem.Path} {applicationItem.Arguments}'"));
-                            var process = Process.Start(applicationItem.Path, applicationItem.Arguments);
+                            Process.Start(applicationItem.Path, applicationItem.Arguments);
                         }
                     });
                     break;
@@ -71,7 +71,7 @@ namespace ApplicationLauncher
                                 foreach (var process in processes)
                                 {
                                     try { process.Kill(); }
-                                    catch { /* Killing a process sometimes throws an exception */ }
+                                    catch (System.ComponentModel.Win32Exception) { /* Killing a process sometimes throws an exception */ }
                                 }
                             }
                         }
@@ -137,7 +137,7 @@ namespace ApplicationLauncher
 
         private void Events_BatteryEventTriggered(object sender, BatteryEventArgs e)
         {
-            _mainWindow.ControllerBatteryInformation.Level = e.BatteryLevel;
+            _mainWindow.ControllerBatteryInformation.BatteryLevel = e.BatteryLevel;
         }
 
         private void DispatchWindowAction(Action action)
