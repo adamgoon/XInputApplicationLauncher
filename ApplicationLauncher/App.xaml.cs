@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using XInputController;
 
 namespace ApplicationLauncher
@@ -10,16 +9,11 @@ namespace ApplicationLauncher
     /// </summary>
     public partial class App : Application
     {
-        public MonitorController MonitorController { get; }
+        private MonitorController _monitorController;
 
         public App()
         {
-            MonitorController = new MonitorController();
-
-            Activated += (o, e) => { MonitorController.Start(); };
-            Deactivated += (o, e) => { MonitorController.Stop(); };
-
-            MonitorController.Start();
+            _monitorController = new MonitorController();
         }
     }
 }

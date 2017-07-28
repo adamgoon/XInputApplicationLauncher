@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using XInputController;
 
 namespace ApplicationLauncher
 {
@@ -26,7 +25,7 @@ namespace ApplicationLauncher
             
             Games = new ObservableCollection<ApplicationItem>(Config.LoadConfig());
             ControllerBatteryInformation = new BatteryInformation();
-
+            
             _handlers = new MainWindowEventHandlers(this);          
         }
         

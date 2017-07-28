@@ -1,16 +1,17 @@
 # XInputApplicationLauncher
-Launch Programs using an XInput controller
+Launch Programs and control the mouse using an XInput controller
 
 #### Building:
 XInputAppplicationLauncher is was developed in VS2017 using .NET 4.7. 
-The [SharpDX](http://sharpdx.org/) wrapper was used to read from the XInput controller. This will be downloaded from NuGet during the build.
+The [SharpDX](http://sharpdx.org/) wrapper was used to read from the XInput controller. This will be downloaded via NuGet during the build.
 
 #### Usage:
 - Guide Button: Show Application
 - Menu Button: Show Menu
-- D-Pad Up/Down, Left Stick Up/Down: Scroll
-- A: Select
+- D-Pad Up/Down, Left Stick: Scroll / Move Mouse (When Mouse Control is active)
+- A: Select / Left Mouse Click (When Mouse Control is active)
 - B: Hide Application
+- X: Toggle Mouse Control
 - Y: Close Highlighted Application
 
 #### Adding Applications to Launcher:

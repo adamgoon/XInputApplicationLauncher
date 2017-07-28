@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using Utils;
 using XInputController;
 
@@ -8,8 +9,11 @@ namespace ApplicationLauncher
 {
     class MainWindowEventHandlers
     {
+        private const int ScrollDelay = 200;
+        private const int ButtonDelay = 500;
         private readonly MainWindow _mainWindow;
         private readonly MenuWindow _menuWindow;
+        private bool _mouseControlOn = false;
 
         public MainWindowEventHandlers(MainWindow window)
         {
@@ -45,16 +49,25 @@ namespace ApplicationLauncher
             switch (e.SelectEvents)
             {
                 case Select.A:
-                    DispatchWindowAction(() =>
+                    if (_mouseControlOn)
                     {
-                        if (_mainWindow.listBox.SelectedIndex > -1)
+                        NativeMethods.LeftMouseClick();
+                    }
+                    else
+                    {
+                        DispatchWindowAction(() =>
                         {
-                            var applicationItem = (ApplicationItem)_mainWindow.listBox.SelectedItem;
+                            if (_mainWindow.listBox.SelectedIndex > -1)
+                            {
+                                var applicationItem = (ApplicationItem)_mainWindow.listBox.SelectedItem;
 
-                            Debugging.TraceInformation(string.Format($"Attempting to launch '{applicationItem.Path} {applicationItem.Arguments}'"));
-                            Process.Start(applicationItem.Path, applicationItem.Arguments);
-                        }
-                    });
+                                Debugging.TraceInformation(string.Format($"Attempting to launch '{applicationItem.Path} {applicationItem.Arguments}'"));
+                                Process.Start(applicationItem.Path, applicationItem.Arguments);
+                            }
+                        });
+                    }
+
+                    Thread.Sleep(ButtonDelay);
                     break;
                 case Select.Y:
                     DispatchWindowAction(() =>
@@ -77,13 +90,24 @@ namespace ApplicationLauncher
                         }
                     });
 
+                    Thread.Sleep(ButtonDelay);
+                    break;
+                case Select.X:
+                    _mouseControlOn = !_mouseControlOn;
+
+                    Thread.Sleep(ButtonDelay);
                     break;
                 case Select.B:
-                    DispatchWindowAction(() =>
+                    if (_mouseControlOn)
                     {
-                        Debugging.TraceInformation(string.Format("Attempting to hide window"));
-                        _mainWindow.Hide();
-                    });
+                        DispatchWindowAction(() =>
+                        {
+                            Debugging.TraceInformation(string.Format("Attempting to hide window"));
+                            _mainWindow.Hide();
+                        });
+                    }
+
+                    Thread.Sleep(ButtonDelay);
                     break;
             }
         }
@@ -93,22 +117,57 @@ namespace ApplicationLauncher
             switch (e.ScrollEvent)
             {
                 case ScrollDirection.Down:
-                    DispatchWindowAction(() =>
+                    if (_mouseControlOn)
                     {
-                        if (_mainWindow.listBox.SelectedIndex < _mainWindow.listBox.Items.Count)
+                        var cursor = NativeMethods.GetCursorPosition();
+                        NativeMethods.SetCursorPosition((int)cursor.X, (int)cursor.Y + e.ScrollAmount);
+                    }
+                    else
+                    {
+                        DispatchWindowAction(() =>
                         {
-                            _mainWindow.listBox.SelectedIndex++;
-                        }
-                    });
+                            if (_mainWindow.listBox.SelectedIndex < _mainWindow.listBox.Items.Count)
+                            {
+                                _mainWindow.listBox.SelectedIndex++;
+                            }
+                        });
+
+                        Thread.Sleep(ScrollDelay);
+                    }
                     break;
                 case ScrollDirection.Up:
-                    DispatchWindowAction(() =>
+                    if (_mouseControlOn)
                     {
-                        if (_mainWindow.listBox.SelectedIndex > 0)
+                        var cursor = NativeMethods.GetCursorPosition();
+                        NativeMethods.SetCursorPosition((int)cursor.X, (int)cursor.Y - e.ScrollAmount);
+                    }
+                    else
+                    {
+                        DispatchWindowAction(() =>
                         {
-                            _mainWindow.listBox.SelectedIndex--;
-                        }
-                    });
+                            if (_mainWindow.listBox.SelectedIndex > 0)
+                            {
+                                _mainWindow.listBox.SelectedIndex--;
+                            }
+                        });
+
+                        Thread.Sleep(ScrollDelay);
+                    }
+
+                    break;
+                case ScrollDirection.Left:
+                    if (_mouseControlOn)
+                    {
+                        var cursor = NativeMethods.GetCursorPosition();
+                        NativeMethods.SetCursorPosition((int)cursor.X - e.ScrollAmount, (int)cursor.Y);
+                    }
+                    break;
+                case ScrollDirection.Right:
+                    if (_mouseControlOn)
+                    {
+                        var cursor = NativeMethods.GetCursorPosition();
+                        NativeMethods.SetCursorPosition((int)cursor.X + e.ScrollAmount, (int)cursor.Y);
+                    }
                     break;
             }
         }
@@ -124,15 +183,17 @@ namespace ApplicationLauncher
 
         private void Events_MenuEventTriggered(object sender, EventArgs e)
         {
-            StopMonitoringEvents();
-
-            DispatchWindowAction(() =>
+            if (!_mouseControlOn)
             {
-                _menuWindow.Owner = _mainWindow;
-                _menuWindow.ShowDialog();
-                StartMonitoringEvents();
-            });
+                StopMonitoringEvents();
 
+                DispatchWindowAction(() =>
+                {
+                    _menuWindow.Owner = _mainWindow;
+                    _menuWindow.ShowDialog();
+                    StartMonitoringEvents();
+                });
+            }
         }
 
         private void Events_BatteryEventTriggered(object sender, BatteryEventArgs e)

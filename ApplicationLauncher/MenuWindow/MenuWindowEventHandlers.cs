@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Utils;
 using XInputController;
 
@@ -6,6 +7,8 @@ namespace ApplicationLauncher
 {
     class MenuWindowEventHandlers
     {
+        private const int ScrollDelay = 200;
+        private const int ButtonDelay = 500;
         private readonly MenuWindow _menuWindow;
 
         public MenuWindowEventHandlers(MenuWindow window)
@@ -45,12 +48,16 @@ namespace ApplicationLauncher
                             DispatchWindowAction(menuItem.Action);
                         }
                     });
+
+                    Thread.Sleep(ButtonDelay);
                     break;
                 case Select.B:
                     DispatchWindowAction(() =>
                     {
                          _menuWindow.Hide();
                     });
+
+                    Thread.Sleep(ButtonDelay);
                     break;
             }
         }
@@ -67,6 +74,8 @@ namespace ApplicationLauncher
                             _menuWindow.listBox.SelectedIndex++;
                         }
                     });
+
+                    Thread.Sleep(ScrollDelay);
                     break;
                 case ScrollDirection.Up:
                     DispatchWindowAction(() =>
@@ -76,6 +85,8 @@ namespace ApplicationLauncher
                             _menuWindow.listBox.SelectedIndex--;
                         }
                     });
+
+                    Thread.Sleep(ScrollDelay);
                     break;
             }
         }

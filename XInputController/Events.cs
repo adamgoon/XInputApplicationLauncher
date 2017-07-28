@@ -5,6 +5,7 @@ namespace XInputController
     public class ScrollEventArgs : EventArgs
     {
         public ScrollDirection ScrollEvent { get; set; }
+        public int ScrollAmount { get; set; }
     }
 
     public class SelectEventArgs : EventArgs
@@ -25,9 +26,9 @@ namespace XInputController
         public static event EventHandler MenuEventTriggered;
         public static event EventHandler<BatteryEventArgs> BatteryEventTriggered;
 
-        internal static void ScrollTrigger(object sender, ScrollDirection e)
+        internal static void ScrollTrigger(object sender, ScrollDirection e, int scrollAmount)
         {
-            ScrollEventTriggered?.Invoke(sender, new ScrollEventArgs { ScrollEvent = e });
+            ScrollEventTriggered?.Invoke(sender, new ScrollEventArgs { ScrollEvent = e, ScrollAmount = scrollAmount });
         }
 
         internal static void SelectTrigger(object sender, Select e)
